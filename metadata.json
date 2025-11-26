@@ -1,0 +1,7 @@
+{
+  "name": "Harvest Hope Foundation",
+  "description": "A non-profit organization website connecting communities with Thanksgiving food drives, volunteer events, and donation opportunities.",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
+}
