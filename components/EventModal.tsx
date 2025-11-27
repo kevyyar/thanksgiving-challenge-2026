@@ -17,7 +17,9 @@ const typeConfig = {
 };
 
 const generateGoogleCalendarUrl = (event: CommunityEvent): string => {
-  const [startTime, endTime] = event.time.split(' - ');
+  const timeParts = event.time.split(' - ');
+  const startTime = timeParts[0] ?? '';
+  const endTime = timeParts[1] ?? startTime;
   const dateStr = event.date;
 
   const parseDateTime = (date: string, time: string): string => {

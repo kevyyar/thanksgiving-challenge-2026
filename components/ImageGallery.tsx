@@ -158,13 +158,13 @@ export const ImageGallery: React.FC = () => {
 
           <div className="flex max-h-[85vh] max-w-5xl flex-col items-center">
             <img
-              src={galleryImages[selectedIndex].url.replace('w=1200', 'w=1920')}
-              alt={galleryImages[selectedIndex].alt}
+              src={galleryImages[selectedIndex]!.url.replace('w=1200', 'w=1920')}
+              alt={galleryImages[selectedIndex]!.alt}
               className="max-h-[75vh] rounded-lg object-contain shadow-2xl"
             />
             <div className="mt-4 text-center">
               <p className="text-lg font-medium text-white">
-                {galleryImages[selectedIndex].caption}
+                {galleryImages[selectedIndex]!.caption}
               </p>
               <p className="mt-1 text-sm text-stone-400">
                 {selectedIndex + 1} / {galleryImages.length}
