@@ -6,6 +6,7 @@ export interface CommunityEvent {
   location: string;
   description: string;
   type: 'volunteer' | 'distribution' | 'community';
+  image: string;
 }
 
 export interface PartnerLocation {

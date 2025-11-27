@@ -20,21 +20,21 @@ const DONATION_ITEMS: DonationItem[] = [
     name: 'Provide a Whole Turkey',
     amount: '$40',
     impact: 'The centerpiece for a family gathering',
-    image: 'https://images.unsplash.com/photo-1574672174772-e06aa3dea66b?auto=format&fit=crop&q=80&w=800'
+    image: 'https://images.unsplash.com/photo-1606728035253-49e8a23146de?auto=format&fit=crop&q=80&w=800'
   },
   {
     id: '3',
     name: 'Monthly Food Box',
     amount: '$50',
     impact: 'Staples for a family for 2 weeks',
-    image: 'https://images.unsplash.com/photo-1595248238805-728b1828f32c?auto=format&fit=crop&q=80&w=800'
+    image: 'https://images.unsplash.com/photo-1534483509719-3feaee7c30da?auto=format&fit=crop&q=80&w=800'
   },
   {
     id: '4',
     name: 'Community Feast Sponsor',
     amount: '$100',
     impact: 'Provides hot meals for 20 people',
-    image: 'https://images.unsplash.com/photo-1511690656952-34342d5c71b5?auto=format&fit=crop&q=80&w=800'
+    image: 'https://images.unsplash.com/photo-1547573854-74d2a71d0826?auto=format&fit=crop&q=80&w=800'
   }
 ];
 

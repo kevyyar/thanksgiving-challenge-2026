@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Calendar, MapPin, Clock, Users } from 'lucide-react';
 import { CommunityEvent } from '../types';
+import { EventModal } from './EventModal';
 
 const EVENTS: CommunityEvent[] = [
   {
@@ -10,7 +11,8 @@ const EVENTS: CommunityEvent[] = [
     time: '9:00 AM - 2:00 PM',
     location: 'Harvest Hope Warehouse',
     type: 'volunteer',
-    description: 'Help us sort and pack over 5,000 turkeys and meal boxes for distribution to local families.'
+    description: 'Help us sort and pack over 5,000 turkeys and meal boxes for distribution to local families. Join hundreds of volunteers in our warehouse facility as we prepare holiday meals for those in need.',
+    image: 'https://images.unsplash.com/photo-1593113598332-cd288d649433?auto=format&fit=crop&q=80&w=1200'
   },
   {
     id: '2',
@@ -19,7 +21,8 @@ const EVENTS: CommunityEvent[] = [
     time: '11:00 AM - 3:00 PM',
     location: 'City Center Park',
     type: 'community',
-    description: 'A free, hot Thanksgiving meal open to anyone in the community. Volunteers needed for serving.'
+    description: 'A free, hot Thanksgiving meal open to anyone in the community. Volunteers needed for serving. Live music, kids activities, and warm fellowship await.',
+    image: 'https://images.unsplash.com/photo-1574484284002-952d92456975?auto=format&fit=crop&q=80&w=1200'
   },
   {
     id: '3',
@@ -28,7 +31,8 @@ const EVENTS: CommunityEvent[] = [
     time: '4:00 PM - 7:00 PM',
     location: 'Westside Community Center',
     type: 'distribution',
-    description: 'Drive-through food distribution event. Fresh produce and holiday staples provided.'
+    description: 'Drive-through food distribution event. Fresh produce and holiday staples provided. No registration required—just show up and receive groceries for your family.',
+    image: 'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&q=80&w=1200'
   }
 ];
 
@@ -37,6 +41,8 @@ interface EventSectionProps {
 }
 
 export const EventSection: React.FC<EventSectionProps> = ({ onVolunteerClick }) => {
+  const [selectedEvent, setSelectedEvent] = useState<CommunityEvent | null>(null);
+
   return (
     <section id="events" className="py-20 bg-white">
       <div className="max-w-7xl mx-auto px-4">
@@ -57,7 +63,12 @@ export const EventSection: React.FC<EventSectionProps> = ({ onVolunteerClick }) 
                 <div className="absolute top-0 right-0 p-4 opacity-10">
                   <Calendar size={64} />
                 </div>
-                <h3 className="text-2xl font-serif font-bold relative z-10 mb-2">{event.title}</h3>
+                <h3
+                  onClick={() => setSelectedEvent(event)}
+                  className="text-2xl font-serif font-bold relative z-10 mb-2 cursor-pointer hover:text-hope-200 transition-colors"
+                >
+                  {event.title}
+                </h3>
                 <span className="inline-block bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide">
                   {event.type}
                 </span>
@@ -95,6 +106,13 @@ export const EventSection: React.FC<EventSectionProps> = ({ onVolunteerClick }) 
           ))}
         </div>
       </div>
+
+      <EventModal
+        event={selectedEvent}
+        isOpen={!!selectedEvent}
+        onClose={() => setSelectedEvent(null)}
+        onVolunteerClick={onVolunteerClick}
+      />
     </section>
   );
 };

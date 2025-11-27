@@ -5,6 +5,7 @@ import { ImpactStats } from './components/ImpactStats';
 import { LocationFinder } from './components/LocationFinder';
 import { EventSection } from './components/EventSection';
 import { GratitudeWall } from './components/GratitudeWall';
+import { ImageGallery } from './components/ImageGallery';
 import { CTASection } from './components/CTASection';
 import { Footer } from './components/Footer';
 import { DonationModal } from './components/DonationModal';
@@ -33,6 +34,7 @@ const App: React.FC = () => {
       <main>
         <LocationFinder />
         <EventSection onVolunteerClick={openVolunteerModal} />
+        <ImageGallery />
         <GratitudeWall />
       </main>
 
