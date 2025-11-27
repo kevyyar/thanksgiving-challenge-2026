@@ -81,7 +81,7 @@ export const LocationFinder: React.FC = () => {
   return (
     <section id="find-help" className="py-20 bg-stone-50">
       <div className="max-w-6xl mx-auto px-4">
-        <div className="flex flex-col md:flex-row gap-12 items-start">
+        <div className="flex flex-col md:flex-row gap-12 md:items-stretch">
           
           <div className="flex-1">
             <span className="text-hope-600 font-bold tracking-wider text-sm uppercase mb-2 block">Find Assistance</span>
@@ -126,7 +126,7 @@ export const LocationFinder: React.FC = () => {
 
           <div className="flex-1 w-full">
             {searching ? (
-              <div className="h-96 bg-white rounded-xl shadow-inner flex flex-col items-center justify-center text-stone-400 animate-pulse">
+              <div className="h-full min-h-[300px] bg-white rounded-xl shadow-inner flex flex-col items-center justify-center text-stone-400 animate-pulse">
                 <MapPin size={48} className="mb-4 text-hope-300" />
                 <p>Searching for nearby partners...</p>
               </div>
@@ -164,9 +164,10 @@ export const LocationFinder: React.FC = () => {
                 ))}
               </div>
             ) : (
-              <div className="h-96 bg-stone-200 rounded-xl flex items-center justify-center overflow-hidden relative">
-                 <div className="absolute inset-0 opacity-20 bg-[url('https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Google_Maps_Logo_2020.svg/2275px-Google_Maps_Logo_2020.svg.png')] bg-center bg-no-repeat bg-contain"></div>
-                 <p className="relative z-10 text-stone-500 font-medium">Map results will appear here</p>
+              <div className="h-full min-h-[300px] bg-stone-200 rounded-xl flex items-center justify-center overflow-hidden">
+                 <svg className="w-32 h-32 text-stone-400" viewBox="0 0 24 24" fill="currentColor">
+                   <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                 </svg>
               </div>
             )}
           </div>
