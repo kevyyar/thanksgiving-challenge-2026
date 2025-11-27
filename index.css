@@ -14,3 +14,24 @@ body {
 section[id] {
   scroll-margin-top: 6rem;
 }
+
+/* Nav link hover animation - slide from left to right */
+.nav-link-hover {
+  position: relative;
+  padding-bottom: 4px;
+}
+
+.nav-link-hover::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: #d97706; /* harvest-600 */
+  transition: width 0.3s ease;
+}
+
+.nav-link-hover:hover::after {
+  width: 100%;
+}

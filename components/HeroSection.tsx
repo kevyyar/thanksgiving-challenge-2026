@@ -65,7 +65,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onDonateClick, onVolun
           Hunger Doesn't Take a <span className="text-harvest-400">Holiday.</span>
         </h1>
         <p className="mb-10 max-w-2xl text-lg font-light leading-relaxed text-stone-200 md:text-2xl">
-          Join thousands of volunteers in Tampa Bay ensuring every family has a warm meal this
+          Join thousands of volunteers in Seattle ensuring every family has a warm meal this
           Thanksgiving.
         </p>
         <div className="flex w-full flex-col gap-4 sm:w-auto sm:flex-row">

@@ -28,10 +28,10 @@ export const Navigation: React.FC<NavigationProps> = ({
 
           {/* Desktop Menu */}
           <div className="hidden md:flex items-center gap-8">
-            <a href="#mission" className="text-stone-600 hover:text-hope-600 font-medium transition-colors">Our Mission</a>
-            <a href="#events" className="text-stone-600 hover:text-hope-600 font-medium transition-colors">Events</a>
-            <a href="#find-help" className="text-stone-600 hover:text-hope-600 font-medium transition-colors">Find Help</a>
-            <a href="#stories" className="text-stone-600 hover:text-hope-600 font-medium transition-colors">Stories</a>
+            <a href="#mission" className="nav-link-hover text-stone-600 hover:text-harvest-600 font-medium transition-colors">Our Mission</a>
+            <a href="#events" className="nav-link-hover text-stone-600 hover:text-harvest-600 font-medium transition-colors">Events</a>
+            <a href="#find-help" className="nav-link-hover text-stone-600 hover:text-harvest-600 font-medium transition-colors">Find Help</a>
+            <a href="#stories" className="nav-link-hover text-stone-600 hover:text-harvest-600 font-medium transition-colors">Stories</a>
             <button
               onClick={onDonateClick}
               className="bg-harvest-600 text-white px-6 py-2.5 rounded-full font-bold hover:bg-harvest-700 transition-colors shadow-md shadow-harvest-600/20 flex items-center gap-2"
