@@ -1,5 +1,5 @@
+import { Truck, Users, Utensils } from 'lucide-react';
 import React from 'react';
-import { Users, Utensils, Truck } from 'lucide-react';
 
 interface StatItemProps {
   icon: React.ReactNode;
@@ -8,38 +8,43 @@ interface StatItemProps {
 }
 
 const StatItem: React.FC<StatItemProps> = ({ icon, value, label }) => (
-  <div className="p-4">
-    <div className="flex justify-center mb-4">{icon}</div>
-    <h3 className="text-4xl font-bold text-stone-900 mb-2">{value}</h3>
-    <p className="text-stone-500 font-medium">{label}</p>
+  <div className="group flex flex-col items-center p-8 transition-transform hover:-translate-y-2">
+    <div className="mb-6 text-stone-300 transition-colors group-hover:text-harvest-500">
+      {icon}
+    </div>
+    <h3 className="mb-2 font-serif text-5xl font-light text-stone-900 md:text-6xl">{value}</h3>
+    <div className="mb-4 h-px w-12 bg-harvest-500/30" />
+    <p className="text-sm font-bold uppercase tracking-widest text-stone-500">{label}</p>
   </div>
 );
 
 export const ImpactStats: React.FC = () => {
   const stats = [
     {
-      icon: <Users size={40} className="text-hope-600" />,
-      value: '15,000+',
-      label: 'Families Served Last Year',
+      icon: <Users size={32} strokeWidth={1.5} />,
+      value: '15k+',
+      label: 'Families Served',
     },
     {
-      icon: <Utensils size={40} className="text-pumpkin-500" />,
-      value: '50,000',
-      label: 'Meals Distributed',
+      icon: <Utensils size={32} strokeWidth={1.5} />,
+      value: '50k',
+      label: 'Meals Shared',
     },
     {
-      icon: <Truck size={40} className="text-harvest-600" />,
+      icon: <Truck size={32} strokeWidth={1.5} />,
       value: '120',
-      label: 'Partner Agencies',
+      label: 'Partners',
     },
   ];
 
   return (
-    <section id="mission" className="py-16 bg-white relative -mt-20 z-20 max-w-7xl mx-auto px-4">
-      <div className="bg-white rounded-2xl shadow-xl border-t border-stone-100 p-8 md:p-12 grid grid-cols-1 md:grid-cols-3 gap-8 text-center divide-y md:divide-y-0 md:divide-x divide-stone-100">
-        {stats.map((stat, index) => (
-          <StatItem key={index} {...stat} />
-        ))}
+    <section id="mission" className="relative z-20 bg-harvest-50 py-24">
+      <div className="mx-auto max-w-7xl px-6 lg:px-8">
+        <div className="grid grid-cols-1 divide-y divide-stone-200 border-y border-stone-200 md:grid-cols-3 md:divide-x md:divide-y-0">
+          {stats.map((stat, index) => (
+            <StatItem key={index} {...stat} />
+          ))}
+        </div>
       </div>
     </section>
   );

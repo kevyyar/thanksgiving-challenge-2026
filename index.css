@@ -7,33 +7,58 @@ html {
 }
 
 body {
-  background-color: #f8fafc;
+  background-color: #fbf8f6; /* harvest-50 */
+  color: #292524; /* stone-800 */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Offset for fixed navbar (h-20 = 80px + extra padding) */
+::selection {
+  background-color: #c07758; /* harvest-500 */
+  color: white;
+}
+
+/* Offset for fixed navbar */
 section[id] {
-  scroll-margin-top: 6rem;
+  scroll-margin-top: 0;
 }
 
-/* Nav link hover animation - slide from left to right */
+/* Elegant Link Hover */
 .nav-link-hover {
   position: relative;
-  padding-bottom: 4px;
 }
 
 .nav-link-hover::after {
   content: '';
   position: absolute;
-  bottom: 0;
+  bottom: -4px;
   left: 0;
   width: 0;
-  height: 2px;
-  background-color: #d97706; /* harvest-600 */
-  transition: width 0.3s ease;
+  height: 1px;
+  background-color: currentColor;
+  transition: width 0.4s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .nav-link-hover:hover::after {
   width: 100%;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #fbf8f6;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #d6d3d1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a8a29e;
 }
 
 /* Confetti animation */

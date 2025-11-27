@@ -1,7 +1,7 @@
+import { ArrowRight, Calendar, ExternalLink, MapPin, Share2, Users, X } from 'lucide-react';
+import { AnimatePresence, motion } from 'motion/react';
 import React from 'react';
-import { Calendar, MapPin, Clock, Users, X, ArrowRight, ExternalLink } from 'lucide-react';
 import { CommunityEvent } from '../types';
-import { motion, AnimatePresence } from 'motion/react';
 
 interface EventModalProps {
   event: CommunityEvent | null;
@@ -11,9 +11,9 @@ interface EventModalProps {
 }
 
 const typeConfig = {
-  volunteer: { label: 'Volunteer Event', color: 'bg-amber-500' },
-  distribution: { label: 'Food Distribution', color: 'bg-emerald-500' },
-  community: { label: 'Community Event', color: 'bg-hope-500' },
+  volunteer: { label: 'Volunteer Event', color: 'bg-amber-500', text: 'text-amber-600', bg: 'bg-amber-50' },
+  distribution: { label: 'Food Distribution', color: 'bg-emerald-500', text: 'text-emerald-600', bg: 'bg-emerald-50' },
+  community: { label: 'Community Event', color: 'bg-hope-500', text: 'text-hope-600', bg: 'bg-hope-50' },
 };
 
 const generateGoogleCalendarUrl = (event: CommunityEvent): string => {
@@ -78,121 +78,112 @@ export const EventModal: React.FC<EventModalProps> = ({
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="relative w-full max-w-lg overflow-hidden rounded-3xl bg-white shadow-2xl"
+            className="relative w-full max-w-4xl overflow-hidden rounded-3xl bg-white shadow-2xl flex flex-col md:flex-row max-h-[90vh]"
           >
-            {/* Hero Image */}
-            <div className="relative h-56 overflow-hidden">
-              <img src={event.image} alt={event.title} className="h-full w-full object-cover" />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+            {/* Close button */}
+            <button
+              onClick={onClose}
+              className="absolute right-4 top-4 z-20 p-2 bg-white/80 backdrop-blur-md hover:bg-white rounded-full transition-colors text-stone-500 shadow-sm"
+            >
+              <X size={20} />
+            </button>
 
-              {/* Close button */}
-              <button
-                onClick={onClose}
-                className="absolute right-4 top-4 rounded-full bg-white/10 p-2 text-white backdrop-blur-md transition-colors hover:bg-white/20"
-              >
-                <X size={20} />
-              </button>
-
-              {/* Type badge */}
-              <div className="absolute left-4 top-4">
-                <span
-                  className={`${config.color} rounded-full px-3 py-1.5 text-xs font-bold uppercase tracking-wide text-white`}
-                >
+            {/* Left Side - Image */}
+            <div className="w-full md:w-2/5 relative h-64 md:h-auto">
+              <img 
+                src={event.image} 
+                alt={event.title} 
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-stone-900/80 via-transparent to-transparent md:bg-gradient-to-r md:from-transparent md:to-stone-900/50" />
+              
+              <div className="absolute top-4 left-4">
+                <span className={`${config.color} text-white px-3 py-1.5 rounded-full text-xs font-bold uppercase tracking-wide shadow-sm`}>
                   {config.label}
                 </span>
               </div>
-
-              {/* Title overlay */}
-              <div className="absolute bottom-0 left-0 right-0 p-6">
-                <h2 className="font-serif text-2xl font-bold leading-tight text-white md:text-3xl">
-                  {event.title}
-                </h2>
-              </div>
             </div>
 
-            {/* Content */}
-            <div className="p-6">
-              {/* Date/Time/Location grid */}
-              <div className="mb-6 grid grid-cols-1 gap-3">
-                <a
-                  href={calendarUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:bg-pumpkin-50 group flex items-center gap-4 rounded-2xl bg-stone-50 p-4 transition-colors"
-                >
-                  <div className="bg-pumpkin-100 rounded-xl p-3 text-pumpkin-600">
-                    <Calendar size={22} />
-                  </div>
-                  <div className="flex-1">
-                    <p className="text-xs font-medium uppercase tracking-wide text-stone-500">
-                      Date
-                    </p>
-                    <p className="font-bold text-stone-800">{event.date}</p>
-                  </div>
-                  <ExternalLink
-                    size={16}
-                    className="text-stone-400 transition-colors group-hover:text-pumpkin-500"
-                  />
-                </a>
+            {/* Right Side - Content */}
+            <div className="flex-1 flex flex-col overflow-hidden bg-white">
+              <div className="flex-1 overflow-y-auto p-6 md:p-8">
+                <div className="mb-6">
+                  <h2 className="font-serif text-3xl font-bold text-stone-900 leading-tight mb-4">
+                    {event.title}
+                  </h2>
+                  <p className="text-stone-600 leading-relaxed text-lg">
+                    {event.description}
+                  </p>
+                </div>
 
-                <a
-                  href={calendarUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group flex items-center gap-4 rounded-2xl bg-stone-50 p-4 transition-colors hover:bg-hope-50"
-                >
-                  <div className="rounded-xl bg-hope-100 p-3 text-hope-600">
-                    <Clock size={22} />
-                  </div>
-                  <div className="flex-1">
-                    <p className="text-xs font-medium uppercase tracking-wide text-stone-500">
-                      Time
-                    </p>
-                    <p className="font-bold text-stone-800">{event.time}</p>
-                  </div>
-                  <ExternalLink
-                    size={16}
-                    className="text-stone-400 transition-colors group-hover:text-hope-500"
-                  />
-                </a>
+                <div className="space-y-4">
+                  <a
+                    href={calendarUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group flex items-start gap-4 p-4 rounded-2xl bg-stone-50 hover:bg-stone-100 transition-colors border border-stone-100"
+                  >
+                    <div className="bg-white p-3 rounded-xl shadow-sm text-stone-700 group-hover:text-harvest-600 transition-colors">
+                      <Calendar size={24} />
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-xs font-bold uppercase tracking-wide text-stone-400 mb-1">Date & Time</p>
+                      <p className="font-bold text-stone-900 text-lg">{event.date}</p>
+                      <p className="text-stone-600">{event.time}</p>
+                    </div>
+                    <ExternalLink size={18} className="text-stone-300 group-hover:text-harvest-500 transition-colors" />
+                  </a>
 
-                <a
-                  href={mapsUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group flex items-center gap-4 rounded-2xl bg-stone-50 p-4 transition-colors hover:bg-harvest-50"
-                >
-                  <div className="rounded-xl bg-harvest-100 p-3 text-harvest-600">
-                    <MapPin size={22} />
-                  </div>
-                  <div className="flex-1">
-                    <p className="text-xs font-medium uppercase tracking-wide text-stone-500">
-                      Location
-                    </p>
-                    <p className="font-bold text-stone-800">{event.location}</p>
-                  </div>
-                  <ExternalLink
-                    size={16}
-                    className="text-stone-400 transition-colors group-hover:text-harvest-500"
-                  />
-                </a>
+                  <a
+                    href={mapsUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group flex items-start gap-4 p-4 rounded-2xl bg-stone-50 hover:bg-stone-100 transition-colors border border-stone-100"
+                  >
+                    <div className="bg-white p-3 rounded-xl shadow-sm text-stone-700 group-hover:text-harvest-600 transition-colors">
+                      <MapPin size={24} />
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-xs font-bold uppercase tracking-wide text-stone-400 mb-1">Location</p>
+                      <p className="font-bold text-stone-900 text-lg">{event.location}</p>
+                      <p className="text-stone-500 text-sm mt-1">Click for directions</p>
+                    </div>
+                    <ExternalLink size={18} className="text-stone-300 group-hover:text-harvest-500 transition-colors" />
+                  </a>
+                </div>
               </div>
 
-              {/* Description */}
-              <p className="mb-6 leading-relaxed text-stone-600">{event.description}</p>
-
-              {/* CTA */}
-              <button
-                onClick={() => {
-                  onClose();
-                  onVolunteerClick();
-                }}
-                className="group flex w-full items-center justify-center gap-3 rounded-2xl bg-hope-600 py-4 font-bold text-white transition-all hover:bg-hope-700"
-              >
-                <Users size={20} />
-                Sign Up to Volunteer
-                <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
-              </button>
+              <div className="p-6 md:p-8 border-t border-stone-100 bg-stone-50 flex flex-col sm:flex-row gap-4">
+                <button
+                  onClick={() => {
+                    onClose();
+                    onVolunteerClick();
+                  }}
+                  className="flex-1 group relative overflow-hidden rounded-xl bg-stone-900 py-4 text-white transition-all hover:bg-harvest-600"
+                >
+                  <div className="relative z-10 flex items-center justify-center gap-2 font-bold">
+                    <Users size={20} />
+                    <span>Sign Up to Volunteer</span>
+                    <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
+                  </div>
+                </button>
+                
+                <button 
+                  className="px-4 py-4 rounded-xl border border-stone-200 bg-white text-stone-600 hover:bg-stone-50 hover:text-stone-900 transition-colors flex items-center justify-center gap-2 font-bold"
+                  onClick={() => {
+                    if (navigator.share) {
+                      navigator.share({
+                        title: event.title,
+                        text: event.description,
+                        url: window.location.href,
+                      }).catch(console.error);
+                    }
+                  }}
+                >
+                  <Share2 size={20} />
+                  <span className="sm:hidden">Share Event</span>
+                </button>
+              </div>
             </div>
           </motion.div>
         </div>

@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { Gift, Heart, X, Loader2, CheckCircle } from 'lucide-react';
+import { ArrowRight, CheckCircle, Gift, Heart, Loader2, X } from 'lucide-react';
+import { AnimatePresence, motion } from 'motion/react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { DonationItem } from '../types';
 
 interface DonationModalProps {
@@ -112,147 +113,177 @@ export const DonationModal: React.FC<DonationModalProps> = ({ isOpen, onClose })
     setTimeout(() => setShowConfetti(false), 4000);
   };
 
-  if (!isOpen) return null;
-
   return (
-    <>
-      {showConfetti && <Confetti />}
-      <div className="fixed inset-0 z-[60] flex items-center justify-center p-4">
-        <div 
-        className="absolute inset-0 bg-stone-900/60 backdrop-blur-sm"
-        onClick={onClose}
-      />
-      
-      <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto animate-fade-in-up">
-        <div className="sticky top-0 bg-white z-10 border-b border-stone-100 p-6 flex justify-between items-center">
-          <div className="flex items-center gap-3">
-            <div className="p-2 bg-red-100 rounded-full text-red-600">
-              <Heart size={24} className="fill-current" />
-            </div>
-            <div>
-              <h2 className="text-2xl font-serif font-bold text-harvest-900">Make an Impact</h2>
-              <p className="text-sm text-stone-500">Your donation changes lives immediately.</p>
-            </div>
-          </div>
-          <button 
-            onClick={onClose}
-            className="p-2 hover:bg-stone-100 rounded-full transition-colors text-stone-500"
-          >
-            <X size={24} />
-          </button>
-        </div>
+    <AnimatePresence>
+      {isOpen && (
+        <>
+          {showConfetti && <Confetti />}
+          <div className="fixed inset-0 z-[60] flex items-center justify-center p-4">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="absolute inset-0 bg-stone-900/70 backdrop-blur-sm"
+              onClick={onClose}
+            />
+            
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+              className="relative w-full max-w-5xl overflow-hidden rounded-3xl bg-white shadow-2xl flex flex-col md:flex-row max-h-[90vh]"
+            >
+              {/* Close button */}
+              <button 
+                onClick={onClose}
+                className="absolute right-4 top-4 z-20 p-2 bg-white/80 backdrop-blur-md hover:bg-white rounded-full transition-colors text-stone-500 shadow-sm"
+              >
+                <X size={20} />
+              </button>
 
-        <div className="p-6">
-           <div className="bg-hope-50 border border-hope-200 rounded-lg p-4 mb-6 text-hope-800 text-sm flex items-start gap-3">
-              <Gift className="shrink-0 mt-0.5" size={18} />
-              <p>Every dollar you donate provides <strong>5 meals</strong> to families in our community thanks to our partnerships with grocery distributors.</p>
-           </div>
-
-           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {DONATION_ITEMS.map((item) => {
-              const isSelected = selectedId === item.id;
-              return (
-                <div
-                  key={item.id}
-                  className={`group bg-white rounded-xl overflow-hidden border-2 transition-all cursor-pointer ${
-                    isSelected
-                      ? 'border-harvest-500 shadow-lg ring-2 ring-harvest-200'
-                      : 'border-stone-200 hover:border-harvest-400 hover:shadow-lg'
-                  }`}
-                  onClick={() => handleSelectDonation(item)}
-                >
-                  <div className="flex h-32 md:h-40">
-                    <div className="w-1/3 relative overflow-hidden">
-                      {isSelected && (
-                        <div className="absolute inset-0 bg-harvest-500/20 z-10 flex items-center justify-center">
-                          <CheckCircle className="text-harvest-600" size={32} />
-                        </div>
-                      )}
-                      <img
-                        src={item.image}
-                        alt={item.name}
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                    <div className="w-2/3 p-4 flex flex-col justify-between">
-                      <div>
-                        <h3 className="font-bold text-stone-800 text-lg leading-tight mb-1">{item.name}</h3>
-                        <p className="text-sm text-stone-500">{item.impact}</p>
-                      </div>
-                      <div className="flex items-center justify-between mt-2">
-                        <span className="text-xl font-bold text-harvest-700">{item.amount}</span>
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleSelectDonation(item);
-                          }}
-                          className={`px-4 py-2 rounded-lg text-sm font-bold transition-colors ${
-                            isSelected
-                              ? 'bg-harvest-700 text-white'
-                              : 'bg-harvest-600 hover:bg-harvest-700 text-white'
-                          }`}
-                        >
-                          {isSelected ? 'Selected' : 'Give Now'}
-                        </button>
-                      </div>
+              {/* Left Side - Image & Impact */}
+              <div className="hidden md:flex w-2/5 bg-stone-100 relative flex-col">
+                <div className="absolute inset-0">
+                  <img 
+                    src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?q=80&w=1000&auto=format&fit=crop" 
+                    alt="Donation Impact" 
+                    className="w-full h-full object-cover opacity-90"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-stone-900/80 via-stone-900/20 to-transparent" />
+                </div>
+                
+                <div className="relative z-10 mt-auto p-8 text-white">
+                  <div className="mb-4 inline-flex items-center justify-center w-12 h-12 rounded-full bg-harvest-500 text-white">
+                    <Heart size={24} className="fill-current" />
+                  </div>
+                  <h2 className="text-3xl font-serif font-bold mb-3 leading-tight">
+                    Make a Difference Today
+                  </h2>
+                  <p className="text-stone-200 font-light leading-relaxed">
+                    Your contribution directly supports families in need. 100% of public donations go to our food programs.
+                  </p>
+                  
+                  <div className="mt-8 pt-8 border-t border-white/20">
+                    <div className="flex items-center gap-3 text-sm text-stone-300">
+                      <Gift size={16} />
+                      <span>Tax-deductible donation</span>
                     </div>
                   </div>
                 </div>
-              );
-            })}
-          </div>
-
-          <div className="mt-8 text-center">
-            {donationState === 'success' ? (
-              <div className="bg-green-50 border border-green-200 rounded-xl p-6 max-w-sm mx-auto">
-                <CheckCircle className="mx-auto text-green-600 mb-3" size={48} />
-                <h3 className="text-xl font-bold text-green-800 mb-2">Thank You!</h3>
-                <p className="text-green-700">Your ${amount} donation will provide {Math.floor(Number(amount) * 5)} meals to families in need.</p>
               </div>
-            ) : (
-              <>
-                <p className="text-stone-600 mb-4 font-serif">
-                  {selectedId ? 'Confirm your donation or enter a custom amount' : 'Select a donation option or enter a custom amount'}
-                </p>
-                <div className="flex max-w-sm mx-auto gap-2">
-                  <div className="relative flex-1">
-                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-stone-400 font-medium">$</span>
-                    <input
-                      type="number"
-                      value={amount}
-                      onChange={(e) => {
-                        setAmount(e.target.value);
-                        setSelectedId(null);
-                      }}
-                      placeholder="Amount"
-                      className="w-full border border-stone-300 rounded-lg pl-8 pr-4 py-3 outline-none focus:ring-2 focus:ring-harvest-500 text-lg font-medium"
-                    />
-                  </div>
-                  <button
-                    onClick={handleDonate}
-                    disabled={!amount || donationState === 'loading'}
-                    className="bg-stone-800 hover:bg-stone-900 disabled:bg-stone-400 text-white px-6 py-3 rounded-lg font-bold transition-colors flex items-center gap-2 min-w-[120px] justify-center"
-                  >
-                    {donationState === 'loading' ? (
-                      <>
-                        <Loader2 className="animate-spin" size={20} />
-                        <span>Processing</span>
-                      </>
-                    ) : (
-                      'Donate'
-                    )}
-                  </button>
+
+              {/* Right Side - Donation Form */}
+              <div className="flex-1 flex flex-col overflow-hidden bg-white">
+                <div className="flex-1 overflow-y-auto p-6 md:p-8">
+                  {donationState === 'success' ? (
+                    <div className="h-full flex flex-col items-center justify-center text-center py-12">
+                      <motion.div 
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mb-6"
+                      >
+                        <CheckCircle className="text-green-600" size={40} />
+                      </motion.div>
+                      <h3 className="text-3xl font-serif font-bold text-harvest-900 mb-4">Thank You!</h3>
+                      <p className="text-stone-600 text-lg max-w-md mx-auto mb-8">
+                        Your generous donation of <span className="font-bold text-harvest-700">${amount}</span> will provide {Math.floor(Number(amount) * 5)} meals to families in our community.
+                      </p>
+                      <button
+                        onClick={onClose}
+                        className="inline-flex items-center justify-center rounded-full bg-stone-900 px-8 py-3 text-sm font-bold uppercase tracking-widest text-white transition-all hover:bg-harvest-500"
+                      >
+                        Close
+                      </button>
+                    </div>
+                  ) : (
+                    <>
+                      <div className="md:hidden mb-6">
+                        <h2 className="text-2xl font-serif font-bold text-harvest-900">Make an Impact</h2>
+                        <p className="text-stone-500 text-sm">Your donation changes lives immediately.</p>
+                      </div>
+
+                      <div className="mb-8">
+                        <h3 className="text-sm font-bold uppercase tracking-widest text-stone-400 mb-4">Select Amount</h3>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                          {DONATION_ITEMS.map((item) => {
+                            const isSelected = selectedId === item.id;
+                            return (
+                              <div
+                                key={item.id}
+                                onClick={() => handleSelectDonation(item)}
+                                className={`relative cursor-pointer rounded-xl border-2 p-4 transition-all ${
+                                  isSelected
+                                    ? 'border-harvest-500 bg-harvest-50'
+                                    : 'border-stone-100 bg-white hover:border-harvest-200 hover:shadow-md'
+                                }`}
+                              >
+                                <div className="flex justify-between items-start mb-2">
+                                  <span className={`text-xl font-bold ${isSelected ? 'text-harvest-700' : 'text-stone-800'}`}>
+                                    {item.amount}
+                                  </span>
+                                  {isSelected && <CheckCircle size={18} className="text-harvest-600" />}
+                                </div>
+                                <h4 className="font-bold text-stone-700 text-sm mb-1">{item.name}</h4>
+                                <p className="text-xs text-stone-500">{item.impact}</p>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+
+                      <div className="mb-8">
+                        <h3 className="text-sm font-bold uppercase tracking-widest text-stone-400 mb-4">Or Enter Custom Amount</h3>
+                        <div className="relative">
+                          <span className="absolute left-4 top-1/2 -translate-y-1/2 text-stone-400 font-serif text-xl">$</span>
+                          <input
+                            type="number"
+                            value={amount}
+                            onChange={(e) => {
+                              setAmount(e.target.value);
+                              setSelectedId(null);
+                            }}
+                            placeholder="0.00"
+                            className="w-full border-b-2 border-stone-200 bg-transparent pl-10 pr-4 py-4 text-3xl font-serif font-bold text-harvest-900 outline-none focus:border-harvest-500 transition-colors placeholder:text-stone-200"
+                          />
+                        </div>
+                      </div>
+                    </>
+                  )}
                 </div>
-              </>
-            )}
+
+                {donationState !== 'success' && (
+                  <div className="p-6 md:p-8 border-t border-stone-100 bg-stone-50">
+                    <button
+                      onClick={handleDonate}
+                      disabled={!amount || donationState === 'loading'}
+                      className="group relative w-full overflow-hidden rounded-full bg-stone-900 py-4 text-white transition-all hover:bg-harvest-500 disabled:bg-stone-300 disabled:cursor-not-allowed"
+                    >
+                      <div className="relative z-10 flex items-center justify-center gap-2 font-bold uppercase tracking-widest">
+                        {donationState === 'loading' ? (
+                          <>
+                            <Loader2 className="animate-spin" size={20} />
+                            <span>Processing...</span>
+                          </>
+                        ) : (
+                          <>
+                            <span>Donate ${amount || '0'}</span>
+                            <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
+                          </>
+                        )}
+                      </div>
+                    </button>
+                    <p className="mt-4 text-center text-xs text-stone-400">
+                      Secure payment processing powered by Stripe.
+                    </p>
+                  </div>
+                )}
+              </div>
+            </motion.div>
           </div>
-        </div>
-        
-        <div className="p-4 bg-stone-50 text-center text-xs text-stone-400 border-t border-stone-100">
-           Harvest Hope Foundation is a 501(c)(3) non-profit. All donations are tax-deductible.
-        </div>
-      </div>
-      </div>
-    </>
+        </>
+      )}
+    </AnimatePresence>
   );
 };

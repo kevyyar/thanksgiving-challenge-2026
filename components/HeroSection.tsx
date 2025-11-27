@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useCallback } from 'react';
 import { ChevronRight } from 'lucide-react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 const heroImages = [
   {
@@ -42,46 +42,92 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onDonateClick, onVolun
   }, [nextSlide]);
 
   return (
-    <section className="relative overflow-hidden pt-20">
+    <section className="relative h-screen min-h-[800px] w-full overflow-hidden bg-stone-900">
+      {/* Background Images */}
       <div className="absolute inset-0 z-0">
         {heroImages.map((image, index) => (
-          <img
+          <div
             key={image.url}
-            src={image.url}
-            alt={image.alt}
-            className={`absolute inset-0 h-[650px] w-full object-cover brightness-[0.4] transition-all duration-1000 ease-in-out md:h-[800px] ${
-              index === currentIndex ? 'scale-100 opacity-100' : 'scale-105 opacity-0'
+            className={`absolute inset-0 transition-opacity duration-[2000ms] ease-in-out ${
+              index === currentIndex ? 'opacity-100' : 'opacity-0'
             }`}
-          />
+          >
+            <img
+              src={image.url}
+              alt={image.alt}
+              className="h-full w-full object-cover opacity-60"
+            />
+            {/* Cinematic Gradient Overlay */}
+            <div className="absolute inset-0 bg-gradient-to-t from-stone-900 via-stone-900/40 to-transparent opacity-90" />
+            <div className="absolute inset-0 bg-gradient-to-r from-stone-900/80 via-transparent to-transparent opacity-80" />
+          </div>
         ))}
-        <div className="absolute inset-0 bg-gradient-to-r from-stone-900/80 via-stone-900/40 to-transparent"></div>
       </div>
 
-      <div className="relative z-10 mx-auto flex h-[650px] max-w-7xl flex-col items-start justify-center px-4 text-left sm:px-6 md:h-[800px] lg:px-8">
-        <span className="mb-6 inline-block animate-fade-in rounded bg-hope-500/90 px-4 py-2 text-xs font-bold uppercase tracking-[0.2em] text-white md:text-sm">
-          Thanksgiving Food Drive 2025
-        </span>
-        <h1 className="mb-8 max-w-4xl font-serif text-5xl font-black leading-[1.1] text-white drop-shadow-2xl md:text-7xl lg:text-8xl">
-          Hunger Doesn't Take a <span className="text-harvest-400">Holiday.</span>
-        </h1>
-        <p className="mb-10 max-w-2xl text-lg font-light leading-relaxed text-stone-200 md:text-2xl">
-          Join thousands of volunteers in Seattle ensuring every family has a warm meal this
-          Thanksgiving.
-        </p>
-        <div className="flex w-full flex-col gap-4 sm:w-auto sm:flex-row">
-          <button
-            onClick={onDonateClick}
-            className="flex items-center justify-center gap-2 rounded-full bg-harvest-500 px-8 py-4 text-lg font-bold text-white shadow-xl transition-all hover:scale-105 hover:bg-harvest-600"
-          >
-            Give a Meal <ChevronRight size={20} />
-          </button>
-          <button
-            onClick={onVolunteerClick}
-            className="flex items-center justify-center rounded-full border-2 border-white/30 bg-white/10 px-8 py-4 text-lg font-bold text-white shadow-xl backdrop-blur-md transition-all hover:bg-white/20"
-          >
-            Volunteer With Us
-          </button>
+      {/* Content */}
+      <div className="relative z-10 flex h-full items-center px-6 pt-20">
+        <div className="mx-auto w-full max-w-7xl">
+          <div className="max-w-4xl">
+            {/* Badge */}
+            <div className="mb-8 inline-flex animate-fade-in items-center gap-3 border-l-2 border-harvest-500 pl-4 opacity-0">
+              <span className="text-xs font-bold uppercase tracking-[0.3em] text-harvest-400">
+                Thanksgiving Drive 2025
+              </span>
+            </div>
+
+            {/* Headline */}
+            <h1 className="mb-8 animate-fade-in-up font-serif text-6xl font-light leading-[1.1] text-white opacity-0 md:text-8xl lg:text-9xl">
+              Hunger Doesn't <br />
+              <span className="font-bold italic text-harvest-500">Take a Holiday.</span>
+            </h1>
+
+            {/* Subheadline */}
+            <p className="mb-12 max-w-xl animate-fade-in-up text-lg font-light leading-relaxed text-stone-300 opacity-0 delay-200 md:text-xl">
+              Join a movement of compassion in Seattle. We're ensuring every family experiences the
+              warmth of a shared meal this season.
+            </p>
+
+            {/* Actions */}
+            <div className="flex animate-fade-in-up flex-col gap-6 opacity-0 delay-300 sm:flex-row sm:items-center">
+              <button
+                onClick={onDonateClick}
+                className="group flex items-center gap-4 text-left transition-all hover:translate-x-2"
+              >
+                <div className="flex h-16 w-16 items-center justify-center rounded-full bg-harvest-500 text-white transition-transform group-hover:scale-110">
+                  <ChevronRight size={28} />
+                </div>
+                <div>
+                  <span className="block text-xs font-bold uppercase tracking-widest text-stone-400">
+                    Make an Impact
+                  </span>
+                  <span className="font-serif text-2xl text-white">Give a Meal</span>
+                </div>
+              </button>
+
+              <div className="hidden h-12 w-px bg-stone-700 sm:block" />
+
+              <button
+                onClick={onVolunteerClick}
+                className="group flex items-center gap-4 text-left transition-all hover:translate-x-2"
+              >
+                <div className="flex h-16 w-16 items-center justify-center rounded-full border border-stone-600 bg-transparent text-white transition-colors group-hover:border-white group-hover:bg-white group-hover:text-stone-900">
+                  <ChevronRight size={28} />
+                </div>
+                <div>
+                  <span className="block text-xs font-bold uppercase tracking-widest text-stone-400">
+                    Join the Team
+                  </span>
+                  <span className="font-serif text-2xl text-white">Volunteer</span>
+                </div>
+              </button>
+            </div>
+          </div>
         </div>
+      </div>
+
+      {/* Scroll Indicator */}
+      <div className="absolute bottom-12 left-1/2 -translate-x-1/2 animate-bounce text-stone-500">
+        <div className="h-16 w-px bg-gradient-to-b from-transparent via-stone-500 to-transparent" />
       </div>
     </section>
   );

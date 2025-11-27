@@ -1,65 +1,119 @@
+import { Facebook, Heart, Instagram, Twitter } from 'lucide-react';
 import React from 'react';
-import { Heart, Facebook, Twitter, Instagram } from 'lucide-react';
 
 export const Footer: React.FC = () => {
   return (
-    <footer className="bg-stone-950 text-stone-500 py-12 md:py-16 border-t border-stone-800">
-      <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-12">
-        <div className="col-span-1 md:col-span-1">
-          <div className="flex items-center gap-2 mb-4 text-white">
-            <Heart className="h-6 w-6 text-harvest-500 fill-current" />
-            <span className="font-serif font-bold text-xl">Harvest Hope</span>
+    <footer className="border-t border-stone-200 bg-white pb-12 pt-24 text-stone-500">
+      <div className="mx-auto grid max-w-7xl grid-cols-1 gap-16 px-6 lg:grid-cols-12 lg:px-8">
+        {/* Brand Column */}
+        <div className="lg:col-span-4">
+          <div className="mb-8 flex items-center gap-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-harvest-500 text-white">
+              <Heart className="h-5 w-5 fill-current" />
+            </div>
+            <span className="font-serif text-2xl font-bold text-stone-900">Harvest Hope</span>
           </div>
-          <p className="text-sm leading-relaxed mb-4">
-            Connecting resources with needs. We believe access to nutritious food is a basic human right, especially during the holidays.
+          <p className="mb-8 max-w-sm text-lg font-light leading-relaxed text-stone-600">
+            Connecting resources with needs. We believe access to nutritious food is a basic human
+            right, especially during the holidays.
           </p>
-          <div className="flex space-x-4">
-            <a href="#" className="hover:text-white transition-colors"><Facebook size={20} /></a>
-            <a href="#" className="hover:text-white transition-colors"><Twitter size={20} /></a>
-            <a href="#" className="hover:text-white transition-colors"><Instagram size={20} /></a>
+          <div className="flex space-x-6">
+            <a href="#" className="text-stone-400 transition-colors hover:text-harvest-500">
+              <Facebook size={24} strokeWidth={1.5} />
+            </a>
+            <a href="#" className="text-stone-400 transition-colors hover:text-harvest-500">
+              <Twitter size={24} strokeWidth={1.5} />
+            </a>
+            <a href="#" className="text-stone-400 transition-colors hover:text-harvest-500">
+              <Instagram size={24} strokeWidth={1.5} />
+            </a>
           </div>
         </div>
 
-        <div>
-          <h4 className="text-white font-bold mb-4 uppercase tracking-wider text-xs">Organization</h4>
-          <ul className="space-y-2 text-sm">
-            <li><a href="#" className="hover:text-hope-400 transition-colors">About Us</a></li>
-            <li><a href="#" className="hover:text-hope-400 transition-colors">Financials</a></li>
-            <li><a href="#" className="hover:text-hope-400 transition-colors">Board of Directors</a></li>
-            <li><a href="#" className="hover:text-hope-400 transition-colors">Careers</a></li>
-          </ul>
+        {/* Links Columns */}
+        <div className="grid grid-cols-2 gap-8 lg:col-span-4">
+          <div>
+            <h4 className="mb-6 text-xs font-bold uppercase tracking-widest text-stone-900">
+              Organization
+            </h4>
+            <ul className="space-y-4 text-sm">
+              <li>
+                <a href="#" className="transition-colors hover:text-harvest-600">
+                  About Us
+                </a>
+              </li>
+              <li>
+                <a href="#" className="transition-colors hover:text-harvest-600">
+                  Financials
+                </a>
+              </li>
+              <li>
+                <a href="#" className="transition-colors hover:text-harvest-600">
+                  Board of Directors
+                </a>
+              </li>
+              <li>
+                <a href="#" className="transition-colors hover:text-harvest-600">
+                  Careers
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h4 className="mb-6 text-xs font-bold uppercase tracking-widest text-stone-900">
+              Get Help
+            </h4>
+            <ul className="space-y-4 text-sm">
+              <li>
+                <a href="#find-help" className="transition-colors hover:text-harvest-600">
+                  Find a Pantry
+                </a>
+              </li>
+              <li>
+                <a href="#" className="transition-colors hover:text-harvest-600">
+                  Disaster Relief
+                </a>
+              </li>
+              <li>
+                <a href="#" className="transition-colors hover:text-harvest-600">
+                  Senior Assistance
+                </a>
+              </li>
+            </ul>
+          </div>
         </div>
 
-        <div>
-          <h4 className="text-white font-bold mb-4 uppercase tracking-wider text-xs">Get Help</h4>
-          <ul className="space-y-2 text-sm">
-            <li><a href="#find-help" className="hover:text-hope-400 transition-colors">Find a Pantry</a></li>
-            <li><a href="#" className="hover:text-hope-400 transition-colors">Disaster Relief</a></li>
-            <li><a href="#" className="hover:text-hope-400 transition-colors">Senior Assistance</a></li>
-          </ul>
-        </div>
-
-        <div>
-          <h4 className="text-white font-bold mb-4 uppercase tracking-wider text-xs">Newsletter</h4>
-          <p className="text-xs mb-4">Stay updated on our impact and volunteer opportunities.</p>
-          <div className="flex">
+        {/* Newsletter Column */}
+        <div className="lg:col-span-4">
+          <h4 className="mb-6 text-xs font-bold uppercase tracking-widest text-stone-900">
+            Stay Connected
+          </h4>
+          <p className="mb-6 text-sm font-light text-stone-600">
+            Join our newsletter for updates on our impact and volunteer opportunities.
+          </p>
+          <div className="flex border-b border-stone-300 pb-2 focus-within:border-harvest-500">
             <input
               type="email"
               placeholder="Email address"
-              className="bg-stone-900 border border-stone-800 rounded-l-md px-4 py-2 text-sm w-full focus:ring-1 focus:ring-hope-500 outline-none text-white"
+              className="w-full bg-transparent py-2 text-stone-900 outline-none placeholder:text-stone-400"
             />
-            <button className="bg-hope-700 hover:bg-hope-600 text-white px-4 rounded-r-md text-sm font-bold">
-              Join
+            <button className="text-xs font-bold uppercase tracking-widest text-harvest-600 transition-colors hover:text-harvest-800">
+              Subscribe
             </button>
           </div>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 mt-12 pt-8 border-t border-stone-900 text-center text-xs flex flex-col md:flex-row justify-between items-center">
+      {/* Bottom Bar */}
+      <div className="mx-auto mt-24 flex max-w-7xl flex-col items-center justify-between gap-6 border-t border-stone-100 px-6 pt-8 text-xs text-stone-400 md:flex-row lg:px-8">
         <span>&copy; 2025 Harvest Hope Foundation. 501(c)(3) Non-Profit.</span>
-        <div className="flex gap-4 mt-4 md:mt-0">
-          <a href="#" className="hover:text-white">Privacy Policy</a>
-          <a href="#" className="hover:text-white">Terms of Service</a>
+        <div className="flex gap-8">
+          <a href="#" className="hover:text-stone-600">
+            Privacy Policy
+          </a>
+          <a href="#" className="hover:text-stone-600">
+            Terms of Service
+          </a>
         </div>
       </div>
     </footer>

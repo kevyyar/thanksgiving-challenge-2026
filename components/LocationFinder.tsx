@@ -1,5 +1,5 @@
+import { Clock, ExternalLink, MapPin, Navigation, Phone, Search } from 'lucide-react';
 import React, { useState } from 'react';
-import { MapPin, Navigation, Search, Phone, Clock, ExternalLink } from 'lucide-react';
 import { PartnerLocation } from '../types';
 
 const MOCK_LOCATIONS: PartnerLocation[] = [
@@ -79,99 +79,129 @@ export const LocationFinder: React.FC = () => {
   };
 
   return (
-    <section id="find-help" className="py-20 bg-stone-50">
-      <div className="max-w-6xl mx-auto px-4">
-        <div className="flex flex-col md:flex-row gap-12 md:items-stretch">
-          
-          <div className="flex-1">
-            <span className="text-hope-600 font-bold tracking-wider text-sm uppercase mb-2 block">Find Assistance</span>
-            <h2 className="text-3xl md:text-5xl font-serif font-bold text-stone-900 mb-6">
-              Locate a Partner Agency
+    <section id="find-help" className="bg-white py-32">
+      <div className="mx-auto max-w-7xl px-6 lg:px-8">
+        <div className="grid grid-cols-1 gap-16 lg:grid-cols-2 lg:gap-24">
+          {/* Search Column */}
+          <div>
+            <span className="mb-4 block text-xs font-bold uppercase tracking-[0.2em] text-harvest-600">
+              Find Assistance
+            </span>
+            <h2 className="mb-8 font-serif text-5xl font-light text-stone-900 md:text-6xl">
+              Locate a Partner <span className="italic text-stone-400">Agency</span>
             </h2>
-            <p className="text-lg text-stone-600 mb-8">
-              We partner with over 500 local churches, shelters, and food pantries to ensure no one goes hungry this Thanksgiving. Enter your location to find the nearest distribution center.
+            <p className="mb-12 text-lg font-light leading-relaxed text-stone-600">
+              We partner with over 500 local churches, shelters, and food pantries to ensure no one
+              goes hungry this Thanksgiving. Enter your location to find the nearest distribution
+              center.
             </p>
 
-            <div className="bg-white p-6 rounded-xl shadow-lg border border-stone-200">
-              <form onSubmit={handleSearch} className="flex flex-col sm:flex-row gap-3 mb-4">
+            <div className="rounded-none border border-stone-200 bg-white p-8 shadow-sm transition-shadow hover:shadow-xl">
+              <form onSubmit={handleSearch} className="mb-8 flex flex-col gap-4 sm:flex-row">
                 <input
                   type="text"
                   placeholder="Enter Zip Code"
                   value={zipCode}
                   onChange={(e) => setZipCode(e.target.value)}
-                  className="flex-1 p-3 border border-stone-300 rounded-lg focus:ring-2 focus:ring-hope-500 focus:border-transparent outline-none"
+                  className="flex-1 border-b border-stone-300 bg-transparent px-0 py-3 text-lg text-stone-900 placeholder:text-stone-400 focus:border-harvest-500 focus:outline-none"
                 />
                 <button
                   type="submit"
-                  className="bg-hope-700 hover:bg-hope-800 text-white px-6 py-3 rounded-lg font-bold transition-colors flex items-center justify-center gap-2"
+                  className="flex items-center justify-center gap-2 bg-stone-900 px-8 py-3 text-sm font-bold uppercase tracking-widest text-white transition-colors hover:bg-harvest-500"
                 >
-                  <Search size={18} /> Search
+                  <Search size={16} /> Search
                 </button>
               </form>
-              
-              <div className="relative flex items-center gap-4 py-2">
-                <div className="flex-grow h-px bg-stone-200"></div>
-                <span className="text-stone-400 text-sm">OR</span>
-                <div className="flex-grow h-px bg-stone-200"></div>
+
+              <div className="relative mb-8 flex items-center gap-4 py-2">
+                <div className="h-px flex-grow bg-stone-100"></div>
+                <span className="text-xs font-bold uppercase tracking-widest text-stone-400">
+                  OR
+                </span>
+                <div className="h-px flex-grow bg-stone-100"></div>
               </div>
 
               <button
                 onClick={handleUseLocation}
-                className="w-full mt-2 border-2 border-hope-600 text-hope-700 hover:bg-hope-50 py-3 rounded-lg font-bold transition-colors flex items-center justify-center gap-2"
+                className="flex w-full items-center justify-center gap-2 border border-stone-200 bg-stone-50 py-4 text-sm font-bold uppercase tracking-widest text-stone-600 transition-colors hover:border-harvest-500 hover:bg-white hover:text-harvest-600"
               >
-                <Navigation size={18} /> Use My Current Location
+                <Navigation size={16} /> Use My Current Location
               </button>
             </div>
           </div>
 
-          <div className="flex-1 w-full">
+          {/* Results Column */}
+          <div className="relative min-h-[500px]">
             {searching ? (
-              <div className="h-full min-h-[300px] bg-white rounded-xl shadow-inner flex flex-col items-center justify-center text-stone-400 animate-pulse">
-                <MapPin size={48} className="mb-4 text-hope-300" />
-                <p>Searching for nearby partners...</p>
+              <div className="flex h-full flex-col items-center justify-center rounded-none border border-stone-100 bg-stone-50 text-stone-400">
+                <div className="mb-4 animate-bounce">
+                  <MapPin size={48} className="text-harvest-300" />
+                </div>
+                <p className="animate-pulse text-sm font-bold uppercase tracking-widest">
+                  Searching nearby...
+                </p>
               </div>
             ) : searched ? (
-              <div className="space-y-4">
-                <h3 className="font-bold text-stone-700 flex items-center gap-2">
-                  <MapPin className="text-pumpkin-500" size={20} />
-                  Found {locations.length} locations near you
-                </h3>
-                {locations.map((loc) => (
-                  <div key={loc.id} className="bg-white p-6 rounded-xl shadow-sm border-l-4 border-hope-500 hover:shadow-md transition-shadow">
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <h4 className="font-serif font-bold text-xl text-stone-900">{loc.name}</h4>
-                        <span className="inline-block bg-stone-100 text-stone-600 text-xs px-2 py-1 rounded mt-1">{loc.type}</span>
-                      </div>
-                      <span className="text-hope-600 font-bold text-sm">{loc.distance}</span>
-                    </div>
-                    
-                    <div className="mt-4 space-y-2 text-stone-600 text-sm">
-                      <p className="flex items-center gap-2"><MapPin size={16} className="text-stone-400" /> {loc.address}</p>
-                      <p className="flex items-center gap-2"><Clock size={16} className="text-stone-400" /> {loc.hours}</p>
-                      <p className="flex items-center gap-2"><Phone size={16} className="text-stone-400" /> {loc.phone}</p>
-                    </div>
-
-                    <a 
-                      href={getMapLink(loc.address)}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="mt-4 inline-flex items-center gap-1 text-hope-700 font-bold text-sm hover:underline"
+              <div className="h-full space-y-6">
+                <div className="flex items-center gap-3 border-b border-stone-100 pb-6">
+                  <MapPin className="text-harvest-500" size={24} />
+                  <h3 className="font-serif text-2xl text-stone-900">
+                    Found {locations.length} locations near you
+                  </h3>
+                </div>
+                <div className="space-y-6">
+                  {locations.map((loc) => (
+                    <div
+                      key={loc.id}
+                      className="group border-b border-stone-100 pb-6 last:border-0"
                     >
-                      Get Directions <ExternalLink size={14} />
-                    </a>
-                  </div>
-                ))}
+                      <div className="mb-4 flex items-start justify-between">
+                        <div>
+                          <h4 className="mb-2 font-serif text-xl text-stone-900 transition-colors group-hover:text-harvest-600">
+                            {loc.name}
+                          </h4>
+                          <span className="inline-block bg-stone-100 px-2 py-1 text-xs font-bold uppercase tracking-wide text-stone-500">
+                            {loc.type}
+                          </span>
+                        </div>
+                        <span className="font-serif text-lg italic text-harvest-500">
+                          {loc.distance}
+                        </span>
+                      </div>
+
+                      <div className="mb-4 space-y-2 text-sm text-stone-500">
+                        <p className="flex items-center gap-3">
+                          <MapPin size={16} className="text-stone-300" /> {loc.address}
+                        </p>
+                        <p className="flex items-center gap-3">
+                          <Clock size={16} className="text-stone-300" /> {loc.hours}
+                        </p>
+                        <p className="flex items-center gap-3">
+                          <Phone size={16} className="text-stone-300" /> {loc.phone}
+                        </p>
+                      </div>
+
+                      <a
+                        href={getMapLink(loc.address)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-stone-900 transition-colors hover:text-harvest-600"
+                      >
+                        Get Directions <ExternalLink size={14} />
+                      </a>
+                    </div>
+                  ))}
+                </div>
               </div>
             ) : (
-              <div className="h-full min-h-[300px] bg-stone-200 rounded-xl flex items-center justify-center overflow-hidden">
-                 <svg className="w-32 h-32 text-stone-400" viewBox="0 0 24 24" fill="currentColor">
-                   <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
-                 </svg>
+              <div className="flex h-full items-center justify-center rounded-none bg-stone-100">
+                <div className="text-center opacity-20">
+                  <MapPin size={120} className="mx-auto mb-4 text-stone-400" />
+                  <p className="font-serif text-2xl text-stone-500">Map Area</p>
+                </div>
               </div>
             )}
           </div>
-
         </div>
       </div>
     </section>
