@@ -59,17 +59,17 @@ export const EventSection: React.FC<EventSectionProps> = ({ onVolunteerClick }) 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {EVENTS.map((event) => (
             <div key={event.id} className="bg-white rounded-2xl border border-stone-200 overflow-hidden hover:shadow-xl transition-shadow flex flex-col">
-              <div className="bg-hope-700 text-white p-6 relative overflow-hidden min-h-[140px]">
+              <div className="bg-hope-700 text-white p-6 relative overflow-hidden min-h-[140px] flex flex-col justify-between">
                 <div className="absolute top-0 right-0 p-4 opacity-10">
                   <Calendar size={64} />
                 </div>
                 <h3
                   onClick={() => setSelectedEvent(event)}
-                  className="text-2xl font-serif font-bold relative z-10 mb-2 cursor-pointer hover:text-hope-200 transition-colors"
+                  className="text-2xl font-serif font-bold relative z-10 cursor-pointer hover:text-hope-200 transition-colors"
                 >
                   {event.title}
                 </h3>
-                <span className="inline-block bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide">
+                <span className="inline-block bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide self-start">
                   {event.type}
                 </span>
               </div>
