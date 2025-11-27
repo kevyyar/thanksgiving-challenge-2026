@@ -1,5 +1,5 @@
 import React from 'react';
-import { Calendar, MapPin, Clock, Users, X, ArrowRight } from 'lucide-react';
+import { Calendar, MapPin, Clock, Users, X, ArrowRight, ExternalLink } from 'lucide-react';
 import { CommunityEvent } from '../types';
 import { motion, AnimatePresence } from 'motion/react';
 
@@ -16,10 +16,47 @@ const typeConfig = {
   community: { label: 'Community Event', color: 'bg-hope-500' },
 };
 
-export const EventModal: React.FC<EventModalProps> = ({ event, isOpen, onClose, onVolunteerClick }) => {
+const generateGoogleCalendarUrl = (event: CommunityEvent): string => {
+  const [startTime, endTime] = event.time.split(' - ');
+  const dateStr = event.date;
+
+  const parseDateTime = (date: string, time: string): string => {
+    const d = new Date(`${date} ${time}`);
+    return d
+      .toISOString()
+      .replace(/[-:]/g, '')
+      .replace(/\.\d{3}/, '');
+  };
+
+  const start = parseDateTime(dateStr, startTime);
+  const end = parseDateTime(dateStr, endTime);
+
+  const params = new URLSearchParams({
+    action: 'TEMPLATE',
+    text: event.title,
+    dates: `${start}/${end}`,
+    details: event.description,
+    location: event.location,
+  });
+
+  return `https://calendar.google.com/calendar/render?${params.toString()}`;
+};
+
+const generateGoogleMapsUrl = (location: string): string => {
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(location)}`;
+};
+
+export const EventModal: React.FC<EventModalProps> = ({
+  event,
+  isOpen,
+  onClose,
+  onVolunteerClick,
+}) => {
   if (!event) return null;
 
   const config = typeConfig[event.type];
+  const calendarUrl = generateGoogleCalendarUrl(event);
+  const mapsUrl = generateGoogleMapsUrl(event.location);
 
   return (
     <AnimatePresence>
@@ -39,35 +76,33 @@ export const EventModal: React.FC<EventModalProps> = ({ event, isOpen, onClose, 
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="relative bg-white rounded-3xl shadow-2xl w-full max-w-lg overflow-hidden"
+            className="relative w-full max-w-lg overflow-hidden rounded-3xl bg-white shadow-2xl"
           >
             {/* Hero Image */}
             <div className="relative h-56 overflow-hidden">
-              <img
-                src={event.image}
-                alt={event.title}
-                className="w-full h-full object-cover"
-              />
+              <img src={event.image} alt={event.title} className="h-full w-full object-cover" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
 
               {/* Close button */}
               <button
                 onClick={onClose}
-                className="absolute top-4 right-4 p-2 bg-white/10 backdrop-blur-md rounded-full text-white hover:bg-white/20 transition-colors"
+                className="absolute right-4 top-4 rounded-full bg-white/10 p-2 text-white backdrop-blur-md transition-colors hover:bg-white/20"
               >
                 <X size={20} />
               </button>
 
               {/* Type badge */}
-              <div className="absolute top-4 left-4">
-                <span className={`${config.color} text-white px-3 py-1.5 rounded-full text-xs font-bold uppercase tracking-wide`}>
+              <div className="absolute left-4 top-4">
+                <span
+                  className={`${config.color} rounded-full px-3 py-1.5 text-xs font-bold uppercase tracking-wide text-white`}
+                >
                   {config.label}
                 </span>
               </div>
 
               {/* Title overlay */}
               <div className="absolute bottom-0 left-0 right-0 p-6">
-                <h2 className="text-2xl md:text-3xl font-serif font-bold text-white leading-tight">
+                <h2 className="font-serif text-2xl font-bold leading-tight text-white md:text-3xl">
                   {event.title}
                 </h2>
               </div>
@@ -76,42 +111,73 @@ export const EventModal: React.FC<EventModalProps> = ({ event, isOpen, onClose, 
             {/* Content */}
             <div className="p-6">
               {/* Date/Time/Location grid */}
-              <div className="grid grid-cols-1 gap-4 mb-6">
-                <div className="flex items-center gap-4 p-4 bg-stone-50 rounded-2xl">
-                  <div className="p-3 bg-pumpkin-100 rounded-xl text-pumpkin-600">
+              <div className="mb-6 grid grid-cols-1 gap-3">
+                <a
+                  href={calendarUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:bg-pumpkin-50 group flex items-center gap-4 rounded-2xl bg-stone-50 p-4 transition-colors"
+                >
+                  <div className="bg-pumpkin-100 rounded-xl p-3 text-pumpkin-600">
                     <Calendar size={22} />
                   </div>
-                  <div>
-                    <p className="text-xs text-stone-500 uppercase tracking-wide font-medium">Date</p>
+                  <div className="flex-1">
+                    <p className="text-xs font-medium uppercase tracking-wide text-stone-500">
+                      Date
+                    </p>
                     <p className="font-bold text-stone-800">{event.date}</p>
                   </div>
-                </div>
+                  <ExternalLink
+                    size={16}
+                    className="text-stone-400 transition-colors group-hover:text-pumpkin-500"
+                  />
+                </a>
 
-                <div className="flex items-center gap-4 p-4 bg-stone-50 rounded-2xl">
-                  <div className="p-3 bg-hope-100 rounded-xl text-hope-600">
+                <a
+                  href={calendarUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex items-center gap-4 rounded-2xl bg-stone-50 p-4 transition-colors hover:bg-hope-50"
+                >
+                  <div className="rounded-xl bg-hope-100 p-3 text-hope-600">
                     <Clock size={22} />
                   </div>
-                  <div>
-                    <p className="text-xs text-stone-500 uppercase tracking-wide font-medium">Time</p>
+                  <div className="flex-1">
+                    <p className="text-xs font-medium uppercase tracking-wide text-stone-500">
+                      Time
+                    </p>
                     <p className="font-bold text-stone-800">{event.time}</p>
                   </div>
-                </div>
+                  <ExternalLink
+                    size={16}
+                    className="text-stone-400 transition-colors group-hover:text-hope-500"
+                  />
+                </a>
 
-                <div className="flex items-center gap-4 p-4 bg-stone-50 rounded-2xl">
-                  <div className="p-3 bg-harvest-100 rounded-xl text-harvest-600">
+                <a
+                  href={mapsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex items-center gap-4 rounded-2xl bg-stone-50 p-4 transition-colors hover:bg-harvest-50"
+                >
+                  <div className="rounded-xl bg-harvest-100 p-3 text-harvest-600">
                     <MapPin size={22} />
                   </div>
-                  <div>
-                    <p className="text-xs text-stone-500 uppercase tracking-wide font-medium">Location</p>
+                  <div className="flex-1">
+                    <p className="text-xs font-medium uppercase tracking-wide text-stone-500">
+                      Location
+                    </p>
                     <p className="font-bold text-stone-800">{event.location}</p>
                   </div>
-                </div>
+                  <ExternalLink
+                    size={16}
+                    className="text-stone-400 transition-colors group-hover:text-harvest-500"
+                  />
+                </a>
               </div>
 
               {/* Description */}
-              <p className="text-stone-600 leading-relaxed mb-6">
-                {event.description}
-              </p>
+              <p className="mb-6 leading-relaxed text-stone-600">{event.description}</p>
 
               {/* CTA */}
               <button
@@ -119,11 +185,11 @@ export const EventModal: React.FC<EventModalProps> = ({ event, isOpen, onClose, 
                   onClose();
                   onVolunteerClick();
                 }}
-                className="w-full bg-hope-600 hover:bg-hope-700 text-white py-4 rounded-2xl font-bold transition-all flex items-center justify-center gap-3 group"
+                className="group flex w-full items-center justify-center gap-3 rounded-2xl bg-hope-600 py-4 font-bold text-white transition-all hover:bg-hope-700"
               >
                 <Users size={20} />
                 Sign Up to Volunteer
-                <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
               </button>
             </div>
           </motion.div>
