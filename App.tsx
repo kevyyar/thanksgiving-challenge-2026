@@ -8,12 +8,15 @@ import { GratitudeWall } from './components/GratitudeWall';
 import { CTASection } from './components/CTASection';
 import { Footer } from './components/Footer';
 import { DonationModal } from './components/DonationModal';
+import { VolunteerModal } from './components/VolunteerModal';
 
 const App: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [donationOpen, setDonationOpen] = useState(false);
+  const [volunteerOpen, setVolunteerOpen] = useState(false);
 
   const openDonationModal = () => setDonationOpen(true);
+  const openVolunteerModal = () => setVolunteerOpen(true);
 
   return (
     <div className="min-h-screen bg-white font-sans text-stone-800">
@@ -23,17 +26,18 @@ const App: React.FC = () => {
         onDonateClick={openDonationModal}
       />
 
-      <HeroSection onDonateClick={openDonationModal} />
+      <HeroSection onDonateClick={openDonationModal} onVolunteerClick={openVolunteerModal} />
 
       <ImpactStats />
 
       <main>
         <LocationFinder />
-        <EventSection />
+        <EventSection onVolunteerClick={openVolunteerModal} />
         <GratitudeWall />
       </main>
 
       <DonationModal isOpen={donationOpen} onClose={() => setDonationOpen(false)} />
+      <VolunteerModal isOpen={volunteerOpen} onClose={() => setVolunteerOpen(false)} />
 
       <CTASection onDonateClick={openDonationModal} />
 

@@ -32,7 +32,11 @@ const EVENTS: CommunityEvent[] = [
   }
 ];
 
-export const EventSection: React.FC = () => {
+interface EventSectionProps {
+  onVolunteerClick: () => void;
+}
+
+export const EventSection: React.FC<EventSectionProps> = ({ onVolunteerClick }) => {
   return (
     <section id="events" className="py-20 bg-white">
       <div className="max-w-7xl mx-auto px-4">
@@ -80,7 +84,10 @@ export const EventSection: React.FC = () => {
               </div>
               
               <div className="p-6 pt-0 mt-auto">
-                <button className="w-full bg-stone-100 hover:bg-hope-100 text-stone-800 hover:text-hope-800 py-3 rounded-lg font-bold transition-colors flex items-center justify-center gap-2">
+                <button
+                  onClick={onVolunteerClick}
+                  className="w-full bg-stone-100 hover:bg-hope-100 text-stone-800 hover:text-hope-800 py-3 rounded-lg font-bold transition-colors flex items-center justify-center gap-2"
+                >
                   <Users size={18} /> Sign Up to Volunteer
                 </button>
               </div>

@@ -3,9 +3,10 @@ import { ChevronRight } from 'lucide-react';
 
 interface HeroSectionProps {
   onDonateClick: () => void;
+  onVolunteerClick: () => void;
 }
 
-export const HeroSection: React.FC<HeroSectionProps> = ({ onDonateClick }) => {
+export const HeroSection: React.FC<HeroSectionProps> = ({ onDonateClick, onVolunteerClick }) => {
   return (
     <section className="relative pt-20">
       <div className="absolute inset-0 z-0">
@@ -34,12 +35,12 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onDonateClick }) => {
           >
             Give a Meal <ChevronRight size={20} />
           </button>
-          <a
-            href="#events"
+          <button
+            onClick={onVolunteerClick}
             className="bg-white/10 backdrop-blur-md border-2 border-white/30 text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-white/20 transition-all shadow-xl flex items-center justify-center"
           >
             Volunteer With Us
-          </a>
+          </button>
         </div>
       </div>
     </section>
